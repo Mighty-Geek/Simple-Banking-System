@@ -1,2 +1,2 @@
 # Simple-Banking-System
-A simple CRUD application using OOPS concepts and Luhn algorithm
+A simple CRUD banking application using OOPS concepts and Luhn algorithm
