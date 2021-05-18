@@ -312,16 +312,24 @@ public:
             }
             case 2:
             {
-                // updateAcc(ac_no);
-                printm("yet to be coded");
+                string prev, rep;
+                printd("Enter value of item to be replaced");
+                cin >> prev;
+                printd("Enter updated value");
+                cin >> rep;
+                if (isdigit(prev[0]) || isdigit(rep[0]))
+                    printm("Request denied : A/C number, A/C pin, balance cannot be updated");
+                updateAcc(prev, rep);
                 abort();
                 break;
             }
             case 3:
             {
-                // deleteAcc(ac_no);
-                printm("yet to be coded");
-                abort();
+                string ac_name;
+                cout << "\n\n";
+                printd("Enter name to confirm A/C DELETION");
+                cin >> ac_name;
+                deleteAcc(ac_name);
                 break;
             }
             default:
@@ -349,6 +357,47 @@ public:
                 abort();
             }
         }
+    }
+    void deleteAcc(string ac_name_val)
+    {
+        string line;
+        ifstream file;
+        file.open("Account.txt");
+        ofstream temp;
+        temp.open("temp.txt");
+        while (getline(file, line))
+        {
+            if (line.substr(0, ac_name_val.length()) != ac_name_val)
+                temp << line << endl;
+        }
+        file.close();
+        temp.close();
+
+        remove("Account.txt");
+        rename("temp.txt", "Account.txt");
+
+        printm("Account has been deleted");
+        cout << "\n\n";
+        backOrAbort();
+    }
+    void updateAcc(string prev, string rep)
+    {
+        fstream file;
+        file.open("Account.txt", ios::in);
+        string line;
+        while (getline(file, line))
+        {
+            size_t pos = line.find(prev, 0);
+            if (pos != string::npos)
+            {
+                line.replace(pos, prev.length(), rep);
+            }
+        }
+        file.close();
+
+        printm("Value updated");
+        cout << "\n\n";
+        backOrAbort();
     }
 };
 
